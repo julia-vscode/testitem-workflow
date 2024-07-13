@@ -37,7 +37,7 @@ jobs:
       run: |
         $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
 
-        $channels | % {
+        $channels | ForEach-Object -Parallel {
           $Env:JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"
           
           julia +$_ --project=. -e 'using Pkg; Pkg.Registry.add("General")'
@@ -57,8 +57,6 @@ jobs:
         }
 
         $new_channels = $channels | % { @{ Name = "Julia $_"; Env = @{ JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"; JULIAUP_CHANNEL = $_ } } } | ConvertTo-Json -Compress
-
-        Write-Host $new_channels
 
         "PROFILES=$new_channels" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
       shell: pwsh
