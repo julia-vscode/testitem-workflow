@@ -56,7 +56,7 @@ jobs:
           julia +$_ --project=. --code-coverage=user --startup-file=no --history-file=no --depwarn=no -e 'using Pkg; Pkg.instantiate()'
         }
 
-        $new_channels = $channels | % { @{ Depot = "${{ runner.tool_cache }}/juliadepots/julia-$_"; Channel = $_ } } | ConvertTo-Json -Compress
+        $new_channels = $channels | % { @{ Name = "Julia $_"; Env = @{ JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"; JULIAUP_CHANNEL = $_ } } } | ConvertTo-Json -Compress
 
         Write-Host $new_channels
 
