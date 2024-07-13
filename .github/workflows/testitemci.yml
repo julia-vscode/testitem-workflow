@@ -26,6 +26,9 @@ jobs:
     - name: Compute channels from Project.toml bounds
       id: compute_juliaup_channels
       uses: julia-actions/julia-get-compatible-juliaup-channels@main
+    - name: TEST
+      run: echo "${{ steps.compute_juliaup_channels.outputs.juliaup_channels}}"
+      shell: bash
     - name: Install Julia versions
       run: |
         $channels = "${{ steps.compute_juliaup_channels.outputs.juliaup_channels }}" | ConvertFrom-Json -AsHashtable
