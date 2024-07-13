@@ -26,19 +26,14 @@ jobs:
     - name: Compute channels from Project.toml bounds
       id: compute_juliaup_channels
       uses: julia-actions/julia-get-compatible-juliaup-channels@main
-    - name: TEST OUR RESUltS
-      run: |
-        write-host "outPUT v 2"
-        write-host "${{ steps.compute_juliaup_channels.outputs.SOMETHINGSIMPLE }}"
-      shell: pwsh
     - name: Install Julia versions
       run: |
-        $channels = "${{ steps.compute_juliaup_channels.outputs.JULIAUP_CHANNELS }}" | ConvertFrom-Json -AsHashtable
+        $channels = "${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}" | ConvertFrom-Json -AsHashtable
         $channels | % {juliaup add $_}        
       shell: pwsh
     - name: Clone registries
       run: |
-        $channels = "${{ steps.compute_juliaup_channels.outputs.JULIAUP_CHANNELS }}".Split(",", [System.StringSplitOptions]::TrimEntries)
+        $channels = "${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}".Split(",", [System.StringSplitOptions]::TrimEntries)
 
         $channels | % {
           $Env:JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"
@@ -48,7 +43,7 @@ jobs:
       shell: pwsh
     - name: Instantiate and precompile
       run: |
-        $channels = "${{ steps.compute_juliaup_channels.outputs.JULIAUP_CHANNELS }}".Split(",", [System.StringSplitOptions]::TrimEntries)
+        $channels = "${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}".Split(",", [System.StringSplitOptions]::TrimEntries)
 
         $channels | % {
           $Env:JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"
@@ -60,7 +55,7 @@ jobs:
       run: julia --project=./testrunner -e 'using Pkg; Pkg.instantiate()'
     - name: Run tests
       run: |
-        $channels = "${{ steps.compute_juliaup_channels.outputs.JULIAUP_CHANNELS }}".Split(",", [System.StringSplitOptions]::TrimEntries)
+        $channels = "${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}".Split(",", [System.StringSplitOptions]::TrimEntries)
 
         julia --project=./testrunner ./testrunner/main.jl ${{ runner.tool_cache }} @channels
       shell: pwsh
