@@ -27,7 +27,9 @@ jobs:
       id: compute_juliaup_channels
       uses: julia-actions/julia-get-compatible-juliaup-channels@main
     - name: TEST OUR RESUltS
-      run: write-host "${{ steps.compute_juliaup_channels.outputs.SOMETHINGSIMPLE }}"
+      run: |
+        write-host "outPUT v 1"
+        write-host "${{ steps.compute_juliaup_channels.outputs.SOMETHINGSIMPLE }}"
       shell: pwsh
     - name: Install Julia versions
       run: |
