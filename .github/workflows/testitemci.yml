@@ -50,7 +50,7 @@ jobs:
       run: |
         $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
 
-        $channels | % {
+        $channels | ForEach-Object -Parallel {
           $Env:JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"
           
           julia +$_ --project=. --code-coverage=user --startup-file=no --history-file=no --depwarn=no -e 'using Pkg; Pkg.instantiate()'
