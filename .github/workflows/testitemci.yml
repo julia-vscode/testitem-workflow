@@ -46,6 +46,7 @@ jobs:
       env:
         JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
     - name: Instantiate and precompile
+      id: prepare_foo
       run: |
         $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
 
@@ -54,19 +55,21 @@ jobs:
           
           julia +$_ --project=. --code-coverage=user --startup-file=no --history-file=no --depwarn=no -e 'using Pkg; Pkg.instantiate()'
         }
+
+        $new_channels = $channels | % { @{ Depot = "${{ runner.tool_cache }}/juliadepots/julia-$_"; Channel = $_ } }
+
+        Write-Host $new_channels
+
+        "PROFILES=$new_channels" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
       shell: pwsh
       env:
         JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
     - name: Install test runner
       run: julia --project=./testrunner -e 'using Pkg; Pkg.instantiate()'
     - name: Run tests
-      run: |
-        $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
-
-        julia --project=./testrunner ./testrunner/main.jl ${{ runner.tool_cache }} @channels
-      shell: pwsh
-      env:
-        JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
+      uses: julia-actions/julia-run-testitems@main
+      with:
+        profiles: ${{ steps.prepare_foo.PROFILES }}
     - uses: julia-actions/julia-processcoverage@v1
       if: always()
     - uses: codecov/codecov-action@v4
