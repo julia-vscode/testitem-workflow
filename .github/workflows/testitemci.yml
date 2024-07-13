@@ -24,7 +24,7 @@ jobs:
       with:
         channel: "release"
     - name: Compute channels from Project.toml bounds
-      id: juliaup-channels
+      id: compute_juliaup_channels
       uses: julia-actions/julia-get-compatible-juliaup-channels@main
     - name: Install Julia versions
       run: |
