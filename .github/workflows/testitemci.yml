@@ -60,7 +60,9 @@ jobs:
 
         Write-Host $new_channels
 
-        "PROFILES=$new_channels" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "PROFILES<<b36e2d837e24435cb9da579b5bc39360" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        $new_channels | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "b36e2d837e24435cb9da579b5bc39360" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
       shell: pwsh
       env:
         JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
