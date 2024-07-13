@@ -27,7 +27,7 @@ jobs:
       id: compute_juliaup_channels
       uses: julia-actions/julia-get-compatible-juliaup-channels@main
     - name: TEST OUR RESUltS
-      run: echo "${{ steps.compute_juliaup_channels.outputs.JULIAUP_CHANNELS}}"
+      run: echo "${{ fromJSON(steps.compute_juliaup_channels.outputs.JULIAUP_CHANNELS) }}"
       shell: bash
     - name: Install Julia versions
       run: |
