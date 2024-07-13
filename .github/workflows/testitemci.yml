@@ -67,7 +67,7 @@ jobs:
     - name: Run tests
       uses: julia-actions/julia-run-testitems@main
       with:
-        profiles: ${{ steps.prepare_foo.PROFILES }}
+        profiles: ${{ steps.prepare_foo.outputs.PROFILES }}
     - uses: julia-actions/julia-processcoverage@v1
       if: always()
     - uses: codecov/codecov-action@v4
