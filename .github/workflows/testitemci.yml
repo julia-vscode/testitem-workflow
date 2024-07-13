@@ -43,6 +43,8 @@ jobs:
           julia +$_ --project=. -e 'using Pkg; Pkg.Registry.add("General")'
         }
       shell: pwsh
+      env:
+        JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
     - name: Instantiate and precompile
       run: |
         $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
@@ -53,6 +55,8 @@ jobs:
           julia +$_ --project=. --code-coverage=user --startup-file=no --history-file=no --depwarn=no -e 'using Pkg; Pkg.instantiate()'
         }
       shell: pwsh
+      env:
+        JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
     - name: Install test runner
       run: julia --project=./testrunner -e 'using Pkg; Pkg.instantiate()'
     - name: Run tests
@@ -61,6 +65,8 @@ jobs:
 
         julia --project=./testrunner ./testrunner/main.jl ${{ runner.tool_cache }} @channels
       shell: pwsh
+      env:
+        JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
     - uses: julia-actions/julia-processcoverage@v1
       if: always()
     - uses: codecov/codecov-action@v4
