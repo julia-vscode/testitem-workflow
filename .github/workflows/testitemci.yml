@@ -24,11 +24,11 @@ jobs:
       with:
         channel: "release"
     - name: Compute channels from Project.toml bounds
-      id: compute_juliaup_channels
-      run: julia ./versionlogic/versionlogic.jl
+      id: juliaup-channels
+      uses: julia-actions/julia-get-compatible-juliaup-channels@main
     - name: Install Julia versions
       run: |
-        $channels = "${{ steps.compute_juliaup_channels.outputs.juliaup_channels }}".Split(",", [System.StringSplitOptions]::TrimEntries)
+        $channels = "${{ steps.compute_juliaup_channels.outputs.juliaup_channels }}" | ConvertFrom-Json -AsHashtable
         $channels | % {juliaup add $_}        
       shell: pwsh
     - name: Clone registries
