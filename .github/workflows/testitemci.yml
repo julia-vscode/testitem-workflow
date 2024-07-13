@@ -27,10 +27,8 @@ jobs:
       id: compute_juliaup_channels
       uses: julia-actions/julia-get-compatible-juliaup-channels@main
     - name: TEST OUR RESUltS
-      run: write-host $env:MYTRY
+      run: write-host "${{ steps.compute_juliaup_channels.outputs.SOMETHINGSIMPLE }}"
       shell: pwsh
-      env:
-        MYTRY: ${{ fromJSON(steps.compute_juliaup_channels.outputs.JULIAUP_CHANNELS) }}
     - name: Install Julia versions
       run: |
         $channels = "${{ steps.compute_juliaup_channels.outputs.JULIAUP_CHANNELS }}" | ConvertFrom-Json -AsHashtable
