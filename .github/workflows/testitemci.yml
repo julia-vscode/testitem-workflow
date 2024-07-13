@@ -37,7 +37,7 @@ jobs:
       run: |
         $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
 
-        $channels | ForEach-Object -Parallel {
+        $channels | ForEach-Object {
           $Env:JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"
           
           julia +$_ --project=. -e 'using Pkg; Pkg.Registry.add("General")'
@@ -50,7 +50,7 @@ jobs:
       run: |
         $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
 
-        $channels | ForEach-Object -Parallel {
+        $channels | ForEach-Object {
           $Env:JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"
           
           julia +$_ --project=. --code-coverage=user --startup-file=no --history-file=no --depwarn=no -e 'using Pkg; Pkg.instantiate()'
