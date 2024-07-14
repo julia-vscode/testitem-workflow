@@ -2,6 +2,35 @@ name: Testitem CI workflow
 
 on:
   workflow_call:
+    inputs:
+      include-release-versions:
+        type: boolean
+        required: true
+        default: true
+      include-lts-versions:
+        type: boolean
+        required: true
+        default: true
+      include-all-compatible-minor-versions:
+        type: boolean
+        required: true
+        default: false
+      include-rc-versions:
+        type: boolean
+        required: true
+        default: false
+      include-beta-versions:
+        type: boolean
+        required: true
+        default: false
+      include-alpha-versions:
+        type: boolean
+        required: true
+        default: false
+      include-nightly-versions:
+        type: boolean
+        required: true
+        default: false
     secrets:
       codecov_token:
         required: true
@@ -21,6 +50,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: julia-actions/julia-compute-test-matrix@main
         id: compute-test-matrix
+        with:
+          include-release-versions: ${{ inputs.include-release-versions }}
+          include-lts-versions: ${{ inputs.include-lts-versions }}
+          include-all-compatible-minor-versions: ${{ inputs.include-all-compatible-minor-versions }}
+          include-rc-versions: ${{ inputs.include-rc-versions }}
+          include-beta-versions: ${{ inputs.include-beta-versions }}
+          include-alpha-versions: ${{ inputs.include-alpha-versions }}
+          include-nightly-versions: ${{ inputs.include-nightly-versions }}
 
   run-tests:
     needs: compute-test-matrix
