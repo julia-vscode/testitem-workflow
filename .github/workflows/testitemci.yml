@@ -20,8 +20,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: julia-actions/julia-get-compatible-juliaup-channels@main
         id: compute_test-matrix
-        with:
-          julia-arch: x64
   run-tests:
     needs: compute-test-matrix
     strategy:
@@ -33,48 +31,12 @@ jobs:
     - uses: actions/checkout@v4
     - uses: julia-actions/install-juliaup@v2
       with:
-        channel: "release"
-    
-    - name: Install Julia versions
-      run: |
-        $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
-        $channels | % {juliaup add $_}        
-      shell: pwsh
-      env:
-        JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
-    - name: Clone registries
-      run: |
-        $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
-
-        $channels | ForEach-Object {
-          $Env:JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"
-          
-          julia +$_ --project=. -e 'using Pkg; @static if VERSION >= v"1.1.0" Pkg.Registry.add("General") else Pkg.update() end'
-        }
-      shell: pwsh
-      env:
-        JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
-    - name: Instantiate and precompile
-      id: prepare_foo
-      run: |
-        $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
-
-        $channels | ForEach-Object {
-          $Env:JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"
-          
-          julia +$_ --project=. --code-coverage=user --startup-file=no --history-file=no --depwarn=no -e 'using Pkg; Pkg.instantiate()'
-        }
-
-        $new_channels = $channels | % { @{ Name = "Julia $_"; Env = @{ JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"; JULIAUP_CHANNEL = $_ } } } | ConvertTo-Json -Compress
-
-        "PROFILES=$new_channels" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-      shell: pwsh
-      env:
-        JULIAUP_CHANNELS: ${{ steps.compute_juliaup_channels.outputs.juliaup-channels }}
+        channel:  ${{ matrix.juliaup-channel }}
+    - uses: julia-actions/julia-buildpkg@v1
     - name: Run tests
       uses: julia-actions/julia-run-testitems@main
       with:
-        profiles: ${{ steps.prepare_foo.outputs.PROFILES }}
+        juliaup-channel: ${{ matrix.juliaup-channel }}
     - uses: julia-actions/julia-processcoverage@v1
       if: always()
     - uses: codecov/codecov-action@v4
