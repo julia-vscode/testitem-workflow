@@ -12,14 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: julia-actions/julia-lint@main
+
   compute-test-matrix:
     runs-on: ubuntu-latest
     outputs:
-      test-matrix: ${{ steps.compute_test-matrix.outputs.test-matrix }}
+      test-matrix: ${{ steps.compute-test-matrix.outputs.test-matrix }}
     steps:
       - uses: actions/checkout@v4
-      - uses: julia-actions/julia-get-compatible-juliaup-channels@main
-        id: compute_test-matrix
+      - uses: julia-actions/julia-compute-test-matrix@main
+        id: compute-test-matrix
+
   run-tests:
     needs: compute-test-matrix
     strategy:
