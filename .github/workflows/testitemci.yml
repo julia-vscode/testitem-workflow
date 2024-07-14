@@ -54,7 +54,7 @@ jobs:
         $channels | ForEach-Object {
           $Env:JULIA_DEPOT_PATH = "${{ runner.tool_cache }}/juliadepots/julia-$_"
           
-          julia +$_ --project=. -e 'using Pkg; Pkg.Registry.add("General")'
+          julia +$_ --project=. -e 'using Pkg; @static if VERSION >= v"1.1.0" Pkg.Registry.add("General") else Pkg.update() end'
         }
       shell: pwsh
       env:
