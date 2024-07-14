@@ -15,6 +15,10 @@ on:
         type: boolean
         required: false
         default: false
+      include-smallest-compatible-minor-versions:
+        type: boolean
+        required: false
+        default: true
       include-rc-versions:
         type: boolean
         required: false
@@ -54,6 +58,7 @@ jobs:
           include-release-versions: ${{ inputs.include-release-versions }}
           include-lts-versions: ${{ inputs.include-lts-versions }}
           include-all-compatible-minor-versions: ${{ inputs.include-all-compatible-minor-versions }}
+          include-smallest-compatible-minor-versions: ${{ inputs.include-smallest-compatible-minor-versions }}
           include-rc-versions: ${{ inputs.include-rc-versions }}
           include-beta-versions: ${{ inputs.include-beta-versions }}
           include-alpha-versions: ${{ inputs.include-alpha-versions }}
