@@ -12,34 +12,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: julia-actions/julia-lint@main
+  compute-test-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      test-matrix: ${{ steps.compute_test-matrix.outputs.test-matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/julia-get-compatible-juliaup-channels@main
+        id: compute_test-matrix
+        with:
+          julia-arch: x64
   run-tests:
+    needs: compute-test-matrix
     strategy:
         fail-fast: false
         matrix:
-          include:
-            - os: ubuntu-latest
-              arch: x64
-            - os: ubuntu-latest
-              arch: x86
-            - os: windows-latest
-              arch: x64
-            - os: windows-latest
-              arch: x86
-            - os: macos-12
-              arch: x64
-            - os: macos-latest
-              arch: aarch64
+          include: ${{ needs.compute-test-matrix.outputs.test-matrix }}
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
     - uses: julia-actions/install-juliaup@v2
       with:
         channel: "release"
-    - name: Compute channels from Project.toml bounds
-      id: compute_juliaup_channels
-      uses: julia-actions/julia-get-compatible-juliaup-channels@main
-      with:
-        julia-arch: ${{ matrix.arch }}
+    
     - name: Install Julia versions
       run: |
         $channels = "$($env:JULIAUP_CHANNELS)" | ConvertFrom-Json -AsHashtable
