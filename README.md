@@ -32,14 +32,14 @@ jobs:
 ## Configuration
 
 The `testitemci.yml` workflow accepts a number of configuration options that control on what Julia versions tests will be run. The following options are supported:
-- `include-release-versions` (`true` or `false`): run tests on the latest stable Julia version.
-- `include-lts-versions` (`true` or `false`): run tests on the latest long-term support Julia version.
-- `include-all-compatible-minor-versions` (`true` or `false`): run tests on all Julia minor versions that are compatible with the `[compat]` section in the package's `Project.toml`.
-- `include-smallest-compatible-minor-versions` (`true` or `false`): run tests on the smallest Julia minor versions that is compatible with the `[compat]` section in the package's `Project.toml`.
-- `include-rc-versions` (`true` or `false`): run tests on the latest release candidate Julia version.
-- `include-beta-versions` (`true` or `false`): run tests on the latest beta Julia version.
-- `include-alpha-versions` (`true` or `false`): run tests on the latest alpha Julia version.
-- `include-nightly-versions` (`true` or `false`): run tests on the latest nightly Julia version.
+- `include-release-versions` (`true` or `false`, default `true`): run tests on the latest stable Julia version.
+- `include-lts-versions` (`true` or `false`, default `true`): run tests on the latest long-term support Julia version.
+- `include-all-compatible-minor-versions` (`true` or `false`, default `false`): run tests on all Julia minor versions that are compatible with the `[compat]` section in the package's `Project.toml`.
+- `include-smallest-compatible-minor-versions` (`true` or `false`, default `true`): run tests on the smallest Julia minor versions that is compatible with the `[compat]` section in the package's `Project.toml`.
+- `include-rc-versions` (`true` or `false`, default `false`): run tests on the latest release candidate Julia version.
+- `include-beta-versions` (`true` or `false`, default `false`): run tests on the latest beta Julia version.
+- `include-alpha-versions` (`true` or `false`, default `false`): run tests on the latest alpha Julia version.
+- `include-nightly-versions` (`true` or `false`, default `false`): run tests on the latest nightly Julia version.
 
 In the following example tests are run on release candidate versions if they are available:
 
