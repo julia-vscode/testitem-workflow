@@ -24,7 +24,7 @@ on:
 
 jobs:
   julia-ci:
-    uses: julia-vscode/testitem-workflow/.github/workflows/testitemci.yml@main
+    uses: julia-vscode/testitem-workflow/.github/workflows/testitemci.yml@v1
     secrets:
       codecov_token: ${{ secrets.CODECOV_TOKEN }}
 ```
@@ -57,7 +57,7 @@ on:
 
 jobs:
   julia-ci:
-    uses: julia-vscode/testitem-workflow/.github/workflows/testitemci.yml@main
+    uses: julia-vscode/testitem-workflow/.github/workflows/testitemci.yml@v1
     with:
       include-rc-versions: true
     secrets:
