@@ -76,7 +76,7 @@ jobs:
     - uses: julia-actions/install-juliaup@v2
       with:
         channel:  ${{ matrix.juliaup-channel }}
-    - uses: julia-actions/julia-buildpkg@v1
+    # - uses: julia-actions/julia-buildpkg@v1
     - name: Run tests
       uses: julia-actions/julia-run-testitems@main
       with:
