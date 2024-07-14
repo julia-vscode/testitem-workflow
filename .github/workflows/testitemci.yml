@@ -27,7 +27,7 @@ jobs:
     strategy:
         fail-fast: false
         matrix:
-          include: ${{ needs.compute-test-matrix.outputs.test-matrix }}
+          include: ${{ fromJson(needs.compute-test-matrix.outputs.test-matrix) }}
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
