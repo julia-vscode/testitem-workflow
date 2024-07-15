@@ -81,6 +81,12 @@ jobs:
       uses: julia-actions/julia-run-testitems@main
       with:
         juliaup-channel: ${{ matrix.juliaup-channel }}
+        results-path: ${{ format('testitemresults-{0}-{1}.json', matrix.os, matrix.juliaup-channel) }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{ format('testitemresults-{0}-{1}', matrix.os, matrix.juliaup-channel) }}
+        path: ${{ format('testitemresults-{0}-{1}.json', matrix.os, matrix.juliaup-channel) }}
+        retention-days: 1
     - uses: julia-actions/julia-processcoverage@v1
       if: always()
     - uses: codecov/codecov-action@v4
@@ -89,6 +95,15 @@ jobs:
         files: ./lcov.info
         flags: unittests
         token: ${{ secrets.codecov_token }}
+
+  report-results:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: testitemresults-*
+          path: testresults
 
   deploy-docs:
     runs-on: ubuntu-latest
