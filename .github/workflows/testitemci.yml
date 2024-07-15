@@ -113,8 +113,8 @@ jobs:
           Pkg.add("JSON")
 
           using JSON
-          
-        shell: julia
+
+        shell:  julia --color=yes {0}
 
   deploy-docs:
     runs-on: ubuntu-latest
