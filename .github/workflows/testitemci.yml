@@ -91,9 +91,9 @@ jobs:
         path: ${{ format('testitemresults-{0}-{1}.json', matrix.os, matrix.juliaup-channel) }}
         retention-days: 1
     - uses: julia-actions/julia-processcoverage@v1
-      if: always()
+      if: ${{ !cancelled() }}
     - uses: codecov/codecov-action@v4
-      if: always()
+      if: ${{ !cancelled() }}
       with:
         files: ./lcov.info
         flags: unittests
@@ -101,6 +101,7 @@ jobs:
 
   report-results:
     needs: [run-tests, lint]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
