@@ -115,9 +115,9 @@ jobs:
 
           using JSON
 
-          json_files_content = [JSON.parsefile(i) for i in readdir("testresults")]
+          json_files_content = [JSON.parsefile(joinpath("testresults", i)) for i in readdir("testresults")]
 
-          
+
         shell:  julia --color=yes {0}
 
   deploy-docs:
