@@ -104,6 +104,17 @@ jobs:
         with:
           pattern: testitemresults-*
           path: testresults
+      - run: |
+          println("DOES THIS WORK?")
+          test_files = readdir("testresults")
+          println("We have $test_files")
+
+          using Pkg
+          Pkg.add("JSON")
+
+          using JSON
+          
+        shell: julia
 
   deploy-docs:
     runs-on: ubuntu-latest
