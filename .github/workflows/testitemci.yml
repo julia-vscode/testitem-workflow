@@ -86,6 +86,7 @@ jobs:
         juliaup-channel: ${{ matrix.juliaup-channel }}
         results-path: ${{ format('testitemresults-{0}-{1}.json', matrix.os, matrix.juliaup-channel) }}
     - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
       with:
         name: ${{ format('testitemresults-{0}-{1}', matrix.os, matrix.juliaup-channel) }}
         path: ${{ format('testitemresults-{0}-{1}.json', matrix.os, matrix.juliaup-channel) }}
