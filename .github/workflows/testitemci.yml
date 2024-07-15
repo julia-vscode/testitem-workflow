@@ -42,9 +42,12 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    outputs:
+      lint-results: ${{ steps.lint-step.outputs.lint-results }}
     steps:
       - uses: actions/checkout@v4
       - uses: julia-actions/julia-lint@main
+        id: lint-step
 
   compute-test-matrix:
     runs-on: ubuntu-latest
@@ -97,7 +100,7 @@ jobs:
         token: ${{ secrets.codecov_token }}
 
   report-results:
-    needs: run-tests
+    needs: [run-tests, lint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -108,6 +111,7 @@ jobs:
       - uses: julia-actions/julia-report-ci-results@main
         with:
           results-path: testresults
+          lint-results: ${{ needs.lint.outputs.lint-results }}
 
   deploy-docs:
     runs-on: ubuntu-latest
