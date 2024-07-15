@@ -105,20 +105,9 @@ jobs:
           pattern: testitemresults-*
           path: testresults
           merge-multiple: true
-      - run: |
-          println("DOES THIS WORK?")
-          test_files = readdir("testresults")
-          println("We have $test_files")
-
-          using Pkg
-          Pkg.add("JSON")
-
-          using JSON
-
-          json_files_content = [JSON.parsefile(joinpath("testresults", i)) for i in readdir("testresults")]
-
-
-        shell:  julia --color=yes {0}
+      - uses: julia-actions/julia-report-ci-results@main
+        with:
+          results-path: testresults
 
   deploy-docs:
     runs-on: ubuntu-latest
