@@ -104,6 +104,7 @@ jobs:
         with:
           pattern: testitemresults-*
           path: testresults
+          merge-multiple: true
       - run: |
           println("DOES THIS WORK?")
           test_files = readdir("testresults")
@@ -114,6 +115,9 @@ jobs:
 
           using JSON
 
+          json_files_content = [JSON.parsefile(i) for i in readdir("testresults")]
+
+          
         shell:  julia --color=yes {0}
 
   deploy-docs:
