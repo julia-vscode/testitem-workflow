@@ -59,6 +59,14 @@ on:
         type: boolean
         required: false
         default: true
+      env:
+        type: string
+        required: false
+        default: ""
+      worker_prep_script:
+        type: string
+        required: false
+        default: ""
     secrets:
       codecov_token:
         required: true
@@ -110,11 +118,16 @@ jobs:
       with:
         channel:  ${{ matrix.juliaup-channel }}
     - uses: julia-actions/julia-buildpkg@v1
+    - name: Run worker prep script
+      if: ${{ inputs.worker_prep_script != '' }}
+      run: julia ${{ inputs.worker_prep_script }}
+      shell: bash
     - name: Run tests
       uses: julia-actions/julia-run-testitems@main
       with:
         juliaup-channel: ${{ matrix.juliaup-channel }}
         results-path: ${{ format('testitemresults-{0}-{1}.json', matrix.os, matrix.juliaup-channel) }}
+        env: ${{ inputs.env }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
