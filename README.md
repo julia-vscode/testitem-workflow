@@ -40,6 +40,12 @@ The `testitemci.yml` workflow accepts a number of configuration options that con
 - `include-beta-versions` (`true` or `false`, default `false`): run tests on the latest beta Julia version.
 - `include-alpha-versions` (`true` or `false`, default `false`): run tests on the latest alpha Julia version.
 - `include-nightly-versions` (`true` or `false`, default `false`): run tests on the latest nightly Julia version.
+- `include-windows-x64` (`true` or `false`, default `true`): run tests on Windows x64.
+- `include-windows-x86` (`true` or `false`, default `true`): run tests on Windows x86.
+- `include-linux-x64` (`true` or `false`, default `true`): run tests on Linux x64.
+- `include-linux-x86` (`true` or `false`, default `true`): run tests on Linux x86.
+- `include-macos-x64` (`true` or `false`, default `true`): run tests on MacOS x64.
+- `include-macos-aarch64` (`true` or `false`, default `true`): run tests on MacOS aarch64.
 
 In the following example tests are run on release candidate versions if they are available:
 

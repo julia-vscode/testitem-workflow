@@ -35,6 +35,30 @@ on:
         type: boolean
         required: false
         default: false
+      include-windows-x64:
+        type: boolean
+        required: false
+        default: true
+      include-windows-x86:
+        type: boolean
+        required: false
+        default: true
+      include-linux-x64:
+        type: boolean
+        required: false
+        default: true
+      include-linux-x86:
+        type: boolean
+        required: false
+        default: true
+      include-macos-x64:
+        type: boolean
+        required: false
+        default: true
+      include-macos-aarch64:
+        type: boolean
+        required: false
+        default: true
     secrets:
       codecov_token:
         required: true
@@ -66,6 +90,12 @@ jobs:
           include-beta-versions: ${{ inputs.include-beta-versions }}
           include-alpha-versions: ${{ inputs.include-alpha-versions }}
           include-nightly-versions: ${{ inputs.include-nightly-versions }}
+          include-windows-x64: ${{ inputs.include-windows-x64 }}
+          include-windows-x86: ${{ inputs.include-windows-x86 }}
+          include-linux-x64: ${{ inputs.include-linux-x64 }}
+          include-linux-x86: ${{ inputs.include-linux-x86 }}
+          include-macos-x64: ${{ inputs.include-macos-x64 }}
+          include-macos-aarch64: ${{ inputs.include-macos-aarch64 }}
 
   run-tests:
     needs: compute-test-matrix
