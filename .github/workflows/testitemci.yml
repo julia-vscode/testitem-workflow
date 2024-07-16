@@ -63,7 +63,7 @@ on:
         type: string
         required: false
         default: ""
-      worker_prep_script:
+      github_job_prep_script:
         type: string
         required: false
         default: ""
@@ -119,8 +119,8 @@ jobs:
         channel:  ${{ matrix.juliaup-channel }}
     - uses: julia-actions/julia-buildpkg@v1
     - name: Run worker prep script
-      if: ${{ inputs.worker_prep_script != '' }}
-      run: julia ${{ inputs.worker_prep_script }}
+      if: ${{ inputs.github_job_prep_script != '' }}
+      run: julia ${{ inputs.github_job_prep_script }}
       shell: bash
     - name: Run tests
       uses: julia-actions/julia-run-testitems@main
