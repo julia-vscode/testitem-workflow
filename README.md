@@ -46,6 +46,8 @@ The `testitemci.yml` workflow accepts a number of configuration options that con
 - `include-linux-x86` (`true` or `false`, default `true`): run tests on Linux x86.
 - `include-macos-x64` (`true` or `false`, default `true`): run tests on MacOS x64.
 - `include-macos-aarch64` (`true` or `false`, default `true`): run tests on MacOS aarch64.
+- `env` (JSON string): By passing a JSON string one can set environment variables for the Julia process that executes test items. For example `env: '{"FOO": "BAR"}'` would set an environment variable named `FOO` to the value `BAR`.
+- `github_job_prep_script`: Path to a Julia file that is run once on each GitHub worker before tests are executed.
 
 In the following example tests are run on release candidate versions if they are available:
 
