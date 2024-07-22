@@ -186,6 +186,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branches: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   compat-helper:
     if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.feature == 'CompatHelper') }}
