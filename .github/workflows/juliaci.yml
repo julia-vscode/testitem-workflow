@@ -71,6 +71,8 @@ on:
       codecov_token:
         required: true
 
+permissions: write-all
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.actor }}-${{ github.event_name }}
   cancel-in-progress: true
@@ -177,7 +179,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   tagbot:
-    if: ${{ github.actor == 'JuliaTagBot' }}
+    if: ${{ github.actor == 'JuliaTagBot' || (github.event_name == 'workflow_dispatch' && github.event.inputs.feature == 'TagBot') }}
     runs-on: ubuntu-latest
     steps:
       - uses: JuliaRegistries/TagBot@v1
