@@ -1,6 +1,6 @@
 # Test item reusable workflow
 
-This repository provides a reusable GitHub Workflow that lints, runs test items and deploys documentation for Julia packages. It only works with packages that use the test item framework.
+This repository provides a reusable GitHub Workflow that lints, runs test items, deploys documentation, checks for compatability updates and creates tags for Julia packages. It only works with packages that use the test item framework.
 
 ## PRERELEASE
 
