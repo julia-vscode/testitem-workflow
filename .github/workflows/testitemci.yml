@@ -71,6 +71,10 @@ on:
       codecov_token:
         required: true
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.actor }}-${{ github.event_name }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     if: ${{ github.actor != 'JuliaTagBot' && github.event_name != 'schedule' }}
