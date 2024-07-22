@@ -8,30 +8,28 @@ This is very experimental prerelease software. It might break, not work etc. I w
 
 ## Getting started
 
-Add the following file as `.github/workflows/test.yml` to the repository of your package:
+Add the following file as `.github/workflows/juliaci.yml` to the repository of your package:
 
 ```yml
-name: CI
+name: Julia CI
 
 on:
-  push:
-    branches:
-      - main
-      - master
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push: {branches: [main,master]}
+  pull_request: {types: [opened,synchronize,reopened]}
+  issue_comment: {types: [created]}
+  schedule: [{cron: 0 0 * * *}]
   workflow_dispatch:
 
 jobs:
   julia-ci:
-    uses: julia-vscode/testitem-workflow/.github/workflows/testitemci.yml@v1
+    uses: julia-vscode/testitem-workflow/.github/workflows/juliaci.yml@v1
     secrets:
       codecov_token: ${{ secrets.CODECOV_TOKEN }}
 ```
 
 ## Configuration
 
-The `testitemci.yml` workflow accepts a number of configuration options that control on what Julia versions tests will be run. The following options are supported:
+The `juliaci.yml` workflow accepts a number of configuration options that control on what Julia versions tests will be run. The following options are supported:
 - `include-release-versions` (`true` or `false`, default `true`): run tests on the latest stable Julia version.
 - `include-lts-versions` (`true` or `false`, default `true`): run tests on the latest long-term support Julia version.
 - `include-all-compatible-minor-versions` (`true` or `false`, default `false`): run tests on all Julia minor versions that are compatible with the `[compat]` section in the package's `Project.toml`.
@@ -52,20 +50,18 @@ The `testitemci.yml` workflow accepts a number of configuration options that con
 In the following example tests are run on release candidate versions if they are available:
 
 ```yml
-name: CI
+name: Julia CI
 
 on:
-  push:
-    branches:
-      - main
-      - master
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push: {branches: [main,master]}
+  pull_request: {types: [opened,synchronize,reopened]}
+  issue_comment: {types: [created]}
+  schedule: [{cron: 0 0 * * *}]
   workflow_dispatch:
 
 jobs:
   julia-ci:
-    uses: julia-vscode/testitem-workflow/.github/workflows/testitemci.yml@v1
+    uses: julia-vscode/testitem-workflow/.github/workflows/juliaci.yml@v1
     with:
       include-rc-versions: true
     secrets:
