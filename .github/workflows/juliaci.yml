@@ -85,7 +85,7 @@ jobs:
       lint-results: ${{ steps.lint-step.outputs.lint-results }}
     steps:
       - uses: actions/checkout@v4
-      - uses: julia-actions/julia-lint@main
+      - uses: julia-actions/julia-lint@v1
         id: lint-step
 
   compute-test-matrix:
@@ -95,7 +95,7 @@ jobs:
       test-matrix: ${{ steps.compute-test-matrix.outputs.test-matrix }}
     steps:
       - uses: actions/checkout@v4
-      - uses: julia-actions/julia-compute-test-matrix@main
+      - uses: julia-actions/julia-compute-test-matrix@v1
         id: compute-test-matrix
         with:
           include-release-versions: ${{ inputs.include-release-versions }}
@@ -132,7 +132,7 @@ jobs:
       run: julia ${{ inputs.github_job_prep_script }}
       shell: bash
     - name: Run tests
-      uses: julia-actions/julia-run-testitems@main
+      uses: julia-actions/julia-run-testitems@v1
       with:
         juliaup-channel: ${{ matrix.juliaup-channel }}
         results-path: ${{ format('testitemresults-{0}-{1}.json', matrix.os, matrix.juliaup-channel) }}
@@ -162,7 +162,7 @@ jobs:
           pattern: testitemresults-*
           path: testresults
           merge-multiple: true
-      - uses: julia-actions/julia-report-ci-results@main
+      - uses: julia-actions/julia-report-ci-results@v1
         with:
           results-path: testresults
           lint-results: ${{ needs.lint.outputs.lint-results }}
