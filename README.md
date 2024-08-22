@@ -17,12 +17,13 @@ on:
   push: {branches: [main,master]}
   pull_request: {types: [opened,synchronize,reopened]}
   issue_comment: {types: [created]}
-  schedule: [{cron: 0 0 * * *}]
-  workflow_dispatch:
+  schedule: [{cron: '0 0 * * *'}]
+  workflow_dispatch: {inputs: {feature: {type: choice, description: What to run, options: [CompatHelper,DocDeploy,LintAndTest,TagBot]}}}
 
 jobs:
   julia-ci:
     uses: julia-vscode/testitem-workflow/.github/workflows/juliaci.yml@v1
+    permissions: write-all
     secrets:
       codecov_token: ${{ secrets.CODECOV_TOKEN }}
 ```
@@ -56,14 +57,15 @@ on:
   push: {branches: [main,master]}
   pull_request: {types: [opened,synchronize,reopened]}
   issue_comment: {types: [created]}
-  schedule: [{cron: 0 0 * * *}]
-  workflow_dispatch:
+  schedule: [{cron: '0 0 * * *'}]
+  workflow_dispatch: {inputs: {feature: {type: choice, description: What to run, options: [CompatHelper,DocDeploy,LintAndTest,TagBot]}}}
 
 jobs:
   julia-ci:
     uses: julia-vscode/testitem-workflow/.github/workflows/juliaci.yml@v1
     with:
       include-rc-versions: true
+    permissions: write-all
     secrets:
       codecov_token: ${{ secrets.CODECOV_TOKEN }}
 ```
