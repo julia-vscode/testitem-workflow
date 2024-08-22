@@ -182,7 +182,7 @@ jobs:
     if: ${{ (github.event_name == 'issue_comment' && github.actor == 'JuliaTagBot') || (github.event_name == 'workflow_dispatch' && github.event.inputs.feature == 'TagBot') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: JuliaRegistries/TagBot@master
+      - uses: JuliaRegistries/TagBot@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branches: true
