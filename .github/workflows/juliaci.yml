@@ -125,6 +125,7 @@ jobs:
         with:
           tool_name: JuliaFormatter
           fail_on_error: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   compute-test-matrix:
     if: ${{ (github.event_name == 'push' || github.event_name == 'pull_request') || (github.event_name == 'workflow_dispatch' && github.event.inputs.feature == 'LintAndTest') }}
